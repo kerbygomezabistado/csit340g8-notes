@@ -21,9 +21,9 @@ function Notes() {
   });
 
   const [search, setSearch] = useState("");
-  const [form, setForm] = useState({
-    title: "",
-    body: "",
+  const [form, setForm] = useState(() => {
+    const saved = localStorage.getItem("draft");
+    return saved ? JSON.parse(saved) : { title: "", body: "" };
   });
 
   const titleRef = useRef(null);
@@ -35,6 +35,7 @@ function Notes() {
   useEffect(() => {
     const id = setTimeout(() => {
       localStorage.setItem("draft", JSON.stringify(form));
+      console.log("drafted saved:", form);
     }, 1000);
     return () => clearTimeout(id);
   }, [form]);
