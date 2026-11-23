@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import NoteCard from "./NoteCard.jsx";
 
 const startingNotes = [
@@ -25,6 +25,8 @@ function Notes() {
     title: "",
     body: "",
   });
+
+  const titleRef = useRef(null);
 
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes));
@@ -62,6 +64,7 @@ function Notes() {
 
     setNotes((prevNotes) => [...prevNotes, newNote]);
     setForm({ title: "", body: "" });
+    titleRef.current.focus();
   };
 
   const handleDelete = (id) => {
@@ -96,6 +99,7 @@ function Notes() {
             NEW NOTE
           </p>
           <input
+            ref={titleRef}
             name="title"
             value={form.title}
             onChange={handleInputChange}
